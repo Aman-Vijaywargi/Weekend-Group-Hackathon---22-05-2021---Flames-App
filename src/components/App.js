@@ -53,7 +53,7 @@ for(let i=0;i<key2.length;i++){
     break;
     case 5:res="Enemy"
     break;
-    case 0:res="Sibilings"
+    case 0:res="Siblings"
     break;
     default:res="Please Enter valid input"
     break
