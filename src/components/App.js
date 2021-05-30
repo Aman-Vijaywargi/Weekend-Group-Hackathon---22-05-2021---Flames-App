@@ -1,9 +1,9 @@
 import React,{useState} from 'react'
 
 export default function App() {
-  const [key1, setKey1] = useState("")
-  const [key2, setKey2] = useState("")
-  const [state, setstate] = useState("")
+  var [key1, setKey1] = useState("")
+  var [key2, setKey2] = useState("")
+  var [state, setstate] = useState("")
   function fun1(e){
 setKey1(e.target.value)
   }
