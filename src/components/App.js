@@ -4,6 +4,14 @@ export default function App() {
   var [key1, setKey1] = useState("")
   var [key2, setKey2] = useState("")
   var [state, setstate] = useState("")
+
+
+  //using ref
+  const input1 = useRef(null)
+  const input2 = useRef(null)
+
+
+
   function fun1(e){
 setKey1(e.target.value)
   }
@@ -11,11 +19,17 @@ setKey1(e.target.value)
     setKey2(e.target.value)
   }
   function fun(){
-    document.getElementsByTagName("input")[0].value=""
-    document.getElementsByTagName("input")[1].value=""
-    setKey1("")
-    setKey2("")
-    setstate("")
+    // document.getElementsByTagName("input")[0].value=""
+    // document.getElementsByTagName("input")[1].value=""
+    // setKey1("")
+    // setKey2("")
+    // setstate("")
+
+    //Using ref to clear inputs
+        input1.current.value = "";
+        input2.current.value = "";
+        setstate(undefined);
+
   }
   var len=0;var res="";
   var str1=key1.split("");
@@ -62,8 +76,8 @@ for(let i=0;i<key2.length;i++){
 }
   return (
     <div id="main">
-      <input data-testid="input1" placeholder="input1" onChange={fun1}></input>
-      <input data-testid="input2" placeholder="input2" onChange={fun2}></input>
+      <input data-testid="input1" ref={input1} placeholder="input1" onChange={fun1}></input>
+      <input data-testid="input2" ref={input2} placeholder="input2" onChange={fun2}></input>
       <button data-testid="calculate_relationship" onClick={main}>Calculate Relationship Future</button>
       <button data-testid="clear" onClick={fun}>Clear</button>
       {/* <h3 data-testid="answer">{state}</h3> */}
