@@ -1,87 +1,77 @@
-import React,{useState} from 'react'
+import React, {Component, useState, useRef} from "react";
+import '../styles/App.css';
 
-export default function App() {
-  var [key1, setKey1] = useState("")
-  var [key2, setKey2] = useState("")
-  var [state, setstate] = useState("")
+const App = () => {
 
+    const [relation, setRelation] = useState(undefined);
+    const first = useRef(null)
+    const second = useRef(null)
+    
+    const submit = () => {
+        let name1 = first.current.value;
+        let name2 = second.current.value;
+        // name1 = name1.toLocaleLowerCase();
+        // name2 = name2.toLocaleLowerCase();
+        let a = undefined;
+        let c = undefined;
+        let abc = [];
+        let sum = 0;
+        if(name1!=="" && name2!=="") {
+            for(let i=0;i<name1.length;i++) {
+                c = name1.charCodeAt(i);
+                a = (c<97)?c-65:c-97;
+                if(abc[a]===undefined) {
+                    abc[a] = 0;
+                }
+                abc[a]++;
+                // console.log(abc);
+            }
+            for(let i=0;i<name2.length;i++) {
+                c = name2.charCodeAt(i);
+                a = (c<97)?c-65:c-97;
+                if(abc[a]===undefined) {
+                    abc[a] = 0;
+                }
+                abc[a]--;
+            }
+            // console.log(abc);
+            for(let i=0;i<abc.length;i++) {
+                if(abc[i]===undefined) {
+                    abc[i] = 0;
+                }
+                sum = (abc[i]<0)? sum + (-1*abc[i]): sum + abc[i];
+            }
+            switch(sum%6) {
+                case 1: setRelation("Friends"); break;
+                case 2: setRelation("Love"); break;
+                case 3: setRelation("Affection"); break;
+                case 4: setRelation("Marriage"); break;
+                case 5: setRelation("Enemy"); break;
+                default : setRelation("Siblings"); break;
+            }
+        }
+        else {
+            setRelation("Please Enter valid input")
+        }
+    }
 
-  //using ref
-  const input1 = useRef(null)
-  const input2 = useRef(null)
+    const clear = () => {
+        first.current.value = "";
+        second.current.value = "";
+        setRelation(undefined);
+    }
 
-
-
-  function fun1(e){
-setKey1(e.target.value)
-  }
-  function fun2(e){
-    setKey2(e.target.value)
-  }
-  function fun(){
-    // document.getElementsByTagName("input")[0].value=""
-    // document.getElementsByTagName("input")[1].value=""
-    // setKey1("")
-    // setKey2("")
-    // setstate("")
-
-    //Using ref to clear inputs
-        input1.current.value = "";
-        input2.current.value = "";
-        setstate(undefined);
-
-  }
-  var len=0;var res="";
-  var str1=key1.split("");
-  var str2=key2.split("");
-  function main(){
-
-  for(let j=0;j<key2.length;j++){
-    var a = str1.indexOf(key2.charAt(j));
-   delete str1[a]}
-
- for(let j=0;j<key1.length;j++){
-  var a = str2.indexOf(key1.charAt(j));
- delete str2[a]}
-
-for(let i=0;i<key1.length;i++){
-  if(str1[i]!=undefined)
-  len++;
+    return(
+        <div id="main">
+            <input type="text" ref={first} data-testid="input1"/>
+            <input type="text" ref={second} data-testid="input2"/>
+            <button onClick={submit} data-testid="calculate_relationship">Calculate Relationship Future</button>
+            <button onClick={clear} data-testid="clear">Clear inputs and relationship status</button>
+            <h3 data-testid="answer">{relation}</h3>
+        </div>
+    )
+    
 }
-for(let i=0;i<key2.length;i++){
-  if(str2[i]!=undefined)
-  len++;
-}
 
- console.log(len)
- len=len%6
 
-  switch(len){
-    case 1:res="Friends"
-    break;
-    case 2:res="Love"
-    break;
-    case 3:res="Affection"
-    break;
-    case 4:res="Marriage"
-    break;
-    case 5:res="Enemy"
-    break;
-    case 0:res="Siblings"
-    break;
-    default:res="Please Enter valid input"
-    break
-  }
-  setstate(res)
-}
-  return (
-    <div id="main">
-      <input data-testid="input1" ref={input1} placeholder="input1" onChange={fun1}></input>
-      <input data-testid="input2" ref={input2} placeholder="input2" onChange={fun2}></input>
-      <button data-testid="calculate_relationship" onClick={main}>Calculate Relationship Future</button>
-      <button data-testid="clear" onClick={fun}>Clear</button>
-      {/* <h3 data-testid="answer">{state}</h3> */}
-      {state?<h3 data-testid="answer">{state}</h3> :""}
-      </div>
-  )
-}
+export default App;
